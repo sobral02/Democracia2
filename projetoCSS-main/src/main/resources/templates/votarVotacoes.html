@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Votar numa votação</title>
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        margin: 0;
+        padding: 0;
+    }
+
+    h1 {
+        margin-top: 0;
+    }
+
+    .button-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-top: 40px;
+    }
+
+    .button {
+        display: inline-block;
+        margin: 10px;
+        padding: 16px 32px;
+        font-size: 18px;
+        font-weight: bold;
+        text-decoration: none;
+        background-color: #4285F4;
+        color: #f6f6f5;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .button:hover{
+        background-color: #3367D6;
+    }
+
+    .button-favor {
+        background-color: #84cd7b;
+    }
+
+    .button-favor:hover {
+        background-color: #a8e59f;
+    }
+
+    .button-contra {
+        background-color: #FF4F4F;
+    }
+
+    .button-contra:hover {
+        background-color: #ea6e6e;
+    }
+
+    .logout-button {
+        background-color: #FF0000;
+    }
+
+    .logout-button:hover {
+        background-color: #FF3333;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #4285F4;
+        color: #fff;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    tr:hover {
+        background-color: #ddd;
+    }
+
+    .error-message {
+        color: #ff0000;
+        font-size: 14px;
+    }
+
+    .success-message {
+        color: rgba(47, 199, 60, 0.89);
+        font-size: 14px;
+    }
+
+</style>
+
+
+<body>
+<h1>Votações em curso</h1>
+<h2><span th:text="${tipoUser}"></span>: <span th:text="${userName}"></span> (ID : <span th:text="${userId}"></span>)</h2>
+<div class="button-container">
+    <button class="button" onclick="location.href='/dashboard'">Dashboard</button>
+    <button class="button logout-button" onclick="location.href='/login'">Logout</button>
+</div>
+<p th:if="${param.sucesso}" class="success-message">"Sucesso ao votar!"</p>
+<p th:if="${param.erro}" class="error-message">"Erro ao votar! Provavelmente já votou nessa proposta!"</p>
+<table>
+    <tr>
+        <th>Título</th>
+        <th>Votos a favor</th>
+        <th>Votos Contra</th>
+        <th>Data de expiração</th>
+        <th>Voto por omissão</th>
+        <th>Votar</th>
+    </tr>
+    <tr th:each="parVotoDelegado : ${paresVotoDelegadoVotacao}">
+        <td th:text="${parVotoDelegado.getKey().getTitulo()}"></td>
+        <td th:text="${parVotoDelegado.getKey().getVotosFavor()}"></td>
+        <td th:text="${parVotoDelegado.getKey().getVotosContra()}"></td>
+        <td th:text="${#dates.format(parVotoDelegado.getKey().getDataExp(), 'yyyy-MM-dd HH:mm:ss')}"></td>
+        <td th:text="${parVotoDelegado.getValue()}"></td>
+        <td>
+            <form th:action="@{/dashboard/votarVotacoes}" method="post">
+                <input type="hidden" name="votId" th:value="${parVotoDelegado.getKey().getId()}"/>
+                <input type="hidden" name="valor" th:value="1"/>
+                <button class="button button-favor" type="submit">Favor</button>
+            </form>
+
+            <form th:action="@{/dashboard/votarVotacoes}" method="post">
+                <input type="hidden" name="votId" th:value="${parVotoDelegado.getKey().getId()}"/>
+                <input type="hidden" name="valor" th:value="0"/>
+                <button class="button button-contra" type="submit">Contra</button>
+            </form>
+
+
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>

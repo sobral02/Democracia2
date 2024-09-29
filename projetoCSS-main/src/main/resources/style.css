@@ -1,0 +1,24 @@
+/* Styling for the welcome label */
+.welcome-label {
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+    -fx-fill-height: 10px;
+    -fx-padding: 0 0 0 10;
+}
+
+/* Styling for the buttons */
+.rounded-button {
+    -fx-background-radius: 5px;
+    -fx-pref-width: 160px;
+    -fx-pref-height: 30px;
+
+}
+
+.votar-button {
+    -fx-pref-height: 60px;  /* The height is double than rounded-button */
+    -fx-font-size: 30px;
+    -fx-alignment: center;
+    -fx-content-display: center;
+    -fx-background-radius: 15px; /* The border radius is double than rounded-button */
+    -fx-pref-width: 250px;
+}

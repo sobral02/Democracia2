@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Projetos Lei em curso</title>
+</head>
+<style>
+
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        margin: 0;
+        padding: 0;
+    }
+
+    h1 {
+        margin-top: 0;
+    }
+
+    .button-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 40px;
+    }
+
+    .button {
+        display: inline-block;
+        margin: 10px;
+        padding: 16px 32px;
+        font-size: 18px;
+        font-weight: bold;
+        text-decoration: none;
+        color: #fff;
+        background-color: #4285F4;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .button:hover {
+        background-color: #3367D6;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #4285F4;
+        color: #fff;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    tr:hover {
+        background-color: #ddd;
+    }
+
+    .error-message {
+        color: #ff0000;
+        font-size: 14px;
+    }
+
+    .success-message {
+        color: rgba(47, 199, 60, 0.89);
+        font-size: 14px;
+    }
+
+</style>
+<body>
+<h1>Projetos Lei em curso</h1>
+<h2><span th:text="${tipoUser}"></span>: <span th:text="${userName}"></span> (ID : <span th:text="${userId}"></span>)</h2>
+<div class="button-container">
+    <button class="button" onclick="location.href='/dashboard'">Dashboard</button>
+</div>
+<p th:if="${param.sucesso}" class="success-message">Sucesso ao apoiar o projeto lei!</p>
+<p th:if="${param.erro}" class="error-message">Erro ao apoiar o projeto lei! Provavelmente já apoiou esse projeto!</p>
+<table>
+    <tr>
+        <th>Título</th>
+        <th>Tema</th>
+        <th>Descrição</th>
+        <th>Data Limite</th>
+        <th>Apoios</th>
+        <th>Apoie o projeto</th>
+    </tr>
+    
+    <tr th:each="projetoLei : ${projetosLei}">
+        <td th:text="${projetoLei.getTitulo()}"></td>
+        <td th:text="${projetoLei.getTema().getNome()}"></td>
+        <td th:text="${projetoLei.getDescricao()}"></td>
+        <td th:text="${#dates.format(projetoLei.getDataLim(), 'yyyy-MM-dd HH:mm:ss')}"></td>
+        <td th:text="${projetoLei.getApoios().size()}"></td>
+        <td>
+            <form th:action="@{/dashboard/apoiarProjetoLei}" method="post">
+                <input type="hidden" name="projetoId" th:value="${projetoLei.getId()}" />
+                <button class="button" type="submit">Apoiar</button>
+            </form>
+
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>

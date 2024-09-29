@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Escolher delegado</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 40px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-top: 0;
+        }
+
+        form {
+            margin-top: 40px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            font-size: 16px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .error-message {
+            color: #ff0000;
+            font-size: 14px;
+        }
+
+        .success-message {
+            color: rgba(47, 199, 60, 0.89);
+            font-size: 14px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            color: #fff;
+            background-color: #4285F4;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .top-left {
+            align-self: flex-start;
+        }
+
+        .top-right {
+            align-self: flex-start;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="button-container">
+        <button class="button top-left" onclick="location.href='/dashboard'">Voltar para a dashboard</button>
+        <button class="button top-right" style="background-color: #FF0000;" onclick="location.href='/login'">Logout</button>
+    </div>
+
+    <h1>Escolha um delegado para votar por si, <span th:text="${userName}"></span></h1>
+
+    <form th:action="@{/dashboard/escolherDelegado}" method="post">
+        <input type="text" name="tema" placeholder="Escolha o tema" required>
+        <br><br>
+        <input type="text" name="idDelegado" placeholder="Id do delegado" required>
+        <br><br>
+        <button class="button" type="submit">Escolher</button>
+    </form>
+
+    <p th:if="${param.naoPodeEscolherASiMesmo}" class="error-message">Não se pode escolher a si mesmo!</p>
+    <p th:if="${param.naoExisteTema}" class="error-message">O tema que selecionou não existe!</p>
+    <p th:if="${param.delegadoJaExiste}" class="error-message">Já existe um delegado para o tema que selecionou!</p>
+    <p th:if="${param.naoExisteDelegado}" class="error-message">Não existe nenhum delegado com o id que forneceu!</p>
+    <p th:if="${param.sucesso}" class="success-message">Sucesso ao escolher o delegado!</p>
+
+</div>
+
+</body>
+</html>

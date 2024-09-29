@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Democracia</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-top: 0;
+        }
+
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 40px;
+        }
+
+        .button {
+            display: inline-block;
+            margin: 10px;
+            padding: 16px 32px;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+            color: #fff;
+            background-color: #4285F4;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #3367D6;
+        }
+
+        .logout-button {
+            background-color: #FF0000;
+        }
+
+        .logout-button:hover {
+            background-color: #FF3333;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Democracia</h1>
+    <h2><span th:text="${tipoUser}"></span>: <span th:text="${userName}"></span> (ID : <span th:text="${userId}"></span>)</h2>
+
+    <div class="button-container">
+        <button class="button" onclick="location.href='/dashboard/listarVotacoes'">Listar as votações em curso</button>
+        <button class="button" onclick="location.href='/dashboard/consultarProjetosLei'">Consultar projetos de lei</button>
+        <button class="button" onclick="location.href='/dashboard/apresentarProjetoLei'">Apresentar um projeto de lei</button>
+        <button class="button" onclick="location.href='/dashboard/apoiarProjetoLei'">Apoiar projetos de lei</button>
+        <button class="button" onclick="location.href='/dashboard/votarVotacoes'">Votar numa proposta</button>
+        <button class="button" onclick="location.href='/dashboard/escolherDelegado'">Escolher delegado</button>
+        <button class="button logout-button" onclick="location.href='/login'">Logout</button>
+    </div>
+</div>
+</body>
+</html>
